@@ -1,0 +1,28 @@
+flags = "-lSDL2 -lSDL2_image -lSDL2_ttf"
+
+task :build do
+  cleanObj
+  arr = loadSrc
+  sh "clang++ -c #{arr}"
+  moveObj
+  arr = loadObj
+  sh "clang++ -o exe #{loadObj} #{flags}"
+end
+
+def loadSrc
+  Dir.glob("./src/*").join(" ")
+end
+
+def loadObj
+  Dir.glob("./o/*").join(" ")
+end
+
+def cleanObj
+  if not Dir.empty?("./o/")
+    sh "rm ./o/*"
+  end
+end
+
+def moveObj
+  sh "mv *.o ./o/"
+end
